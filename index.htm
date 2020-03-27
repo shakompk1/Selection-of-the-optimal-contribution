@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <div id="pushinfo">
+            <div class="row">
+                <div class="col">Начальня сумма</div>
+                <div class="col"><input id="initialAmount" type="number"></div>
+            </div>
+            <div class="row">
+                <div class="col">Сумма ежемесячного пополнения</div>
+                <div class="col"><input id="replenishment" type="number"></div>
+            </div>
+            <div class="row">
+                <div class="col">Срок вклада</div>
+                <div class="col"><input id="term" type="number"></div>
+            </div>
+            <div class="row">
+                <div class="col">Валюта вклада</div>
+                <div class="col"><input id="currency" type="text"></div>
+            </div>
+            <div class="row"><button id="handle">Подобрать</button></div>
+        </div>
+        <p id="error"></p>
+        <table id="table"></table>
+    </main>
+
+    <script src="calc.js"></script>
+    <script>
+        new Application();
+    </script>
+</body>
+
+</html>
