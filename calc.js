@@ -72,7 +72,6 @@ class Application {
             let user = new Deposit(initialAmount, replenishment, term, currency);
             let bank = new BankProduct()
             let calculator = new Calculator(user, bank);
-            console.log(calculator.result)
             this.show(calculator.result)
         } else { this.check(initialAmount, replenishment, term, currency) }
     }
@@ -95,6 +94,7 @@ class Application {
             alert("Такого Банка нет")
         }
         else {
+            console.log(calculator)
             table.innerHTML = '<tr><th>Название Банка</th><th>Вклад</th><th>Процент</th><th>Итоговая сумма</th></tr>';
             for (let i = 0; i < calculator.length; i++) {
                 table.innerHTML += '<tr><td>' + calculator[i].bankName + '</td><td>' + calculator[i].investName + '</td><td>' + calculator[i].incomeType + '</td><td>' + calculator[i].total + '</td></tr>';
@@ -111,7 +111,8 @@ class Deposit {
         this.currency = currency.toUpperCase();
     }
     checkTerm() {
-        if (this.replenishment >= 0 || this.replenishment == null) return true;
+        if (this.replenishment > 0 || this.replenishment == null){return true;}
+        else {return false;}
     }
 };
 
@@ -136,13 +137,8 @@ class Calculator {
     }
     checkBestOption() {
         let resultarr = [];
-        let finalresult;
+        let finalresult = "";
         let superresult = [];
-        for (let i = 0; i < this.bank.currency.length; i++) {
-            if (this.deposit.replenishment == 0 || this.deposit.replenishment == null) {
-                this.bank.currency[i].canDeposit = true;
-            }
-        }
         for (let i = 0; i < this.bank.currency.length; i++) {
             if (
                 (this.deposit.initialAmount >= this.bank.currency[i].sumMin && (this.deposit.initialAmount <= this.bank.currency[i].sumMax || this.bank.currency[i].sumMax === null)) &&
@@ -162,7 +158,7 @@ class Calculator {
             });
             superresult.push(finalresult)
         } else { superresult.push(0) }
-        console.log(resultarr)
+        console.log(superresult)
         for (let i = 0; i < resultarr.length; i++)
             if (finalresult.total == resultarr[i].total && finalresult.bankName !== resultarr[i].bankName) {
                 superresult.push(resultarr[i])
