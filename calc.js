@@ -68,7 +68,7 @@ class Application {
         let replenishment = +(document.getElementById('replenishment').value);
         let term = +(document.getElementById('term').value);
         let currency = document.getElementById('currency').value;
-        if (initialAmount > 0 && replenishment >= 0 && term > 0 && (currency.toUpperCase() =="RUB" || currency.toUpperCase() =="USD" ))  {
+        if (initialAmount > 0 && replenishment >= 0 && term > 0 && (currency.toUpperCase() == "RUB" || currency.toUpperCase() == "USD")) {
             let user = new Deposit(initialAmount, replenishment, term, currency);
             let bank = new BankProduct()
             let calculator = new Calculator(user, bank);
@@ -86,7 +86,7 @@ class Application {
         if (term <= 0) {
             error.innerHTML += `Срок вклада не может быть 0 или меньше <br>`;
         }
-        if ((currency.toUpperCase() !=="RUB" || currency.toUpperCase() !=="USD" )) {
+        if ((currency.toUpperCase() !== "RUB" || currency.toUpperCase() !== "USD")) {
             error.innerHTML += `Введите валюту <br>`;
         }
     }
@@ -94,9 +94,11 @@ class Application {
         if (calculator == 0) {
             alert("Такого Банка нет")
         }
-        else{
+        else {
             table.innerHTML = '<tr><th>Название Банка</th><th>Вклад</th><th>Процент</th><th>Итоговая сумма</th></tr>';
-            table.innerHTML += '<tr><td>' + calculator.bankName + '</td><td>' + calculator.investName + '</td><td>' + calculator.incomeType + '</td><td>' + calculator.total + '</td></tr>';
+            for (let i = 0; i < calculator.length; i++) {
+                table.innerHTML += '<tr><td>' + calculator[i].bankName + '</td><td>' + calculator[i].investName + '</td><td>' + calculator[i].incomeType + '</td><td>' + calculator[i].total + '</td></tr>';
+            }
         }
     }
 }
@@ -135,6 +137,7 @@ class Calculator {
     checkBestOption() {
         let resultarr = [];
         let finalresult;
+        let superresult = [];
         for (let i = 0; i < this.bank.currency.length; i++) {
             if (this.deposit.replenishment == 0 || this.deposit.replenishment == null) {
                 this.bank.currency[i].canDeposit = true;
@@ -157,8 +160,14 @@ class Calculator {
             finalresult = resultarr.reduce(function (prev, current) {
                 return (prev.total >= current.total) ? prev : current
             });
-        } else { finalresult = 0 }
-        return finalresult
+            superresult.push(finalresult)
+        } else { superresult.push(0) }
+        console.log(resultarr)
+        for (let i = 0; i < resultarr.length; i++)
+            if (finalresult.total == resultarr[i].total && finalresult.bankName !== resultarr[i].bankName) {
+                superresult.push(resultarr[i])
+            }
+        return superresult;
     }
     findPower(time, rait) {
         let salPower = 0;
